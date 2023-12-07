@@ -52,24 +52,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isDead && collision.tag == "Mob")
+        if (isDead || collision.tag != "Mob") return;
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt")) return;
+
+        float distanceToMob = Vector2.Distance(transform.position, collision.transform.position);
+
+        if (distanceToMob <= attackRadius)
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
+            animator.SetTrigger("Hurt");
+
+            remainingLives--;
+            UpdateLivesDisplay();
+
+            if (remainingLives <= 0)
             {
-                float distanceToMob = Vector2.Distance(transform.position, collision.transform.position);
-
-                if (distanceToMob <= attackRadius)
-                {
-                    animator.SetTrigger("Hurt");
-
-                    remainingLives--;
-                    UpdateLivesDisplay();
-
-                    if (remainingLives <= 0)
-                    {
-                        StartCoroutine(DeathSequence());
-                    }
-                }
+                StartCoroutine(DeathSequence());
             }
         }
     }
