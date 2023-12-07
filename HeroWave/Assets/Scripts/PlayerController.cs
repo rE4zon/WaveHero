@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject gameOverMenu;
     [SerializeField] private TextMeshProUGUI gameOverKillCountText;
 
-
     private int currentAttack = 1;
     private int hurtCount = 0;
     private int remainingLives = 3;
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
         if (livesText == null || killCountText == null || gameOverMenu == null)
         {
-            Debug.LogError("One or more components not assigned in the Inspector");
+            Debug.LogError("Check inspector");
         }
         else
         {
