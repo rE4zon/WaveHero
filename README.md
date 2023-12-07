@@ -1,6 +1,6 @@
 ## WaveHero
 
-##Menu
+## Menu
 
 ![Unity_BVPWp7WEQR](https://github.com/rE4zon/WaveHero/assets/108632051/f49e0685-3ca1-4ee9-9d62-e962c5cc5037)
 
