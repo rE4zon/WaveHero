@@ -1,11 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public class GhostSpawner : MonoBehaviour
+public class MobSpawner : MonoBehaviour
 {
-    public GameObject ghostPrefab;
+    public GameObject mobPrefab;
     public float spawnInterval = 5f;
 
+    private Camera mainCamera;
     private GameObject player;
 
     private void Start()
@@ -16,24 +17,29 @@ public class GhostSpawner : MonoBehaviour
             Debug.LogError("Player not found. Make sure the player has the tag 'Player'.");
         }
 
+        mainCamera = Camera.main;
+
         // Запускаем корутину для спауна призраков
-        StartCoroutine(SpawnGhosts());
+        StartCoroutine(SpawnMobs());
     }
 
-    private IEnumerator SpawnGhosts()
+    private IEnumerator SpawnMobs()
     {
         while (true)
         {
             // Создаем новый призрак
-            SpawnGhost();
+            SpawnMob();
 
             // Ждем указанный интервал времени перед следующим спауном
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    private void SpawnGhost()
+    private void SpawnMob()
     {
+        // Получаем размеры экрана в мировых координатах
+        float screenWidth = mainCamera.orthographicSize * 2 * mainCamera.aspect;
+
         // Генерируем случайное число для определения стороны спауна (лево или право)
         float randomSide = Random.Range(0f, 1f);
         float spawnX;
@@ -41,19 +47,19 @@ public class GhostSpawner : MonoBehaviour
         // Определяем координату X в зависимости от случайного числа
         if (randomSide < 0.5f)
         {
-            // Спаун слева от игрока
-            spawnX = player.transform.position.x - Random.Range(5f, 10f);
+            // Спаун слева от игрока, за границей экрана
+            spawnX = player.transform.position.x - screenWidth * 0.5f - Random.Range(5f, 10f);
         }
         else
         {
-            // Спаун справа от игрока
-            spawnX = player.transform.position.x + Random.Range(5f, 10f);
+            // Спаун справа от игрока, за границей экрана
+            spawnX = player.transform.position.x + screenWidth * 0.5f + Random.Range(5f, 10f);
         }
 
         // Создаем позицию для спауна
         Vector3 spawnPosition = new Vector3(spawnX, player.transform.position.y, player.transform.position.z);
 
         // Создаем новый призрак на указанной позиции
-        Instantiate(ghostPrefab, spawnPosition, Quaternion.identity);
+        Instantiate(mobPrefab, spawnPosition, Quaternion.identity);
     }
 }

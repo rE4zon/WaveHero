@@ -52,15 +52,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isDead && collision.tag == "Ghost")
+        if (!isDead && collision.tag == "Mob")
         {
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
             {
-                float distanceToGhost = Vector2.Distance(transform.position, collision.transform.position);
+                float distanceToMob = Vector2.Distance(transform.position, collision.transform.position);
 
-                if (distanceToGhost <= attackRadius)
+                if (distanceToMob <= attackRadius)
                 {
                     animator.SetTrigger("Hurt");
 
@@ -117,15 +117,17 @@ public class PlayerController : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackRadius);
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Ghost"))
+            if (collider.CompareTag("Mob"))
             {
-                GhostController ghost = collider.GetComponent<GhostController>();
-                if (ghost != null)
+                MobController mob = collider.GetComponent<MobController>();
+                if (mob != null)
                 {
-                    Vector2 ghostDirection = (ghost.transform.position - transform.position).normalized;
-                    if (Vector2.Dot(ghostDirection, attackDirection) > 0.5f)
+                    Vector2 mobDirection = (mob.transform.position - transform.position).normalized;
+                    float angle = Vector2.SignedAngle(attackDirection, mobDirection);
+
+                    if (Mathf.Abs(angle) < 45f)
                     {
-                        ghost.TakeDamage();
+                        mob.TakeDamage();
                     }
                 }
             }
@@ -133,6 +135,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Player performed " + attackTrigger + "!");
     }
+
 
     public void OnHurtAnimationEnd()
     {
@@ -149,15 +152,12 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Death");
         isDead = true;
 
-        yield return new WaitForSeconds(2f); // Delay for 2 seconds
+        yield return new WaitForSeconds(2f);
 
-        // Pause the game
         Time.timeScale = 0f;
 
-        // Show the game over menu
         if (gameOverMenu != null)
         {
-            // Set the kill count text on the game over panel
             if (gameOverKillCountText != null)
             {
                 gameOverKillCountText.text = $"Total Kills: {killCount}";

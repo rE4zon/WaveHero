@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class GhostController : MonoBehaviour
+public class MobController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private Animator animator;
@@ -46,7 +46,6 @@ public class GhostController : MonoBehaviour
     {
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-        // Notify the PlayerController to update the kill count
         GameObject playerController = GameObject.FindGameObjectWithTag("Player");
         if (playerController != null)
         {
