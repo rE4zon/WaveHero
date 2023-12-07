@@ -14,7 +14,7 @@ public class MobController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null)
         {
-            Debug.LogError("Player not found. Make sure the player has the tag 'Player'.");
+            Debug.LogError("Player Tag is not found");
         }
     }
 

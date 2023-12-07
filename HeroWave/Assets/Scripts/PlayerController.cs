@@ -24,12 +24,20 @@ public class PlayerController : MonoBehaviour
 
         if (livesText == null || killCountText == null || gameOverMenu == null)
         {
-            Debug.LogError("One or more components not assigned in the Inspector.");
+            Debug.LogError("One or more components not assigned in the Inspector");
         }
         else
         {
             UpdateLivesDisplay();
             UpdateKillCountDisplay();
+        }
+    }
+    private void Update()
+    {
+        if (!isDead)
+        {
+            PlayerMovementInput();
+            PlayerAttackInput();
         }
     }
 
@@ -41,15 +49,6 @@ public class PlayerController : MonoBehaviour
     private void UpdateKillCountDisplay()
     {
         killCountText.text = $"Kills: {killCount}";
-    }
-
-    private void Update()
-    {
-        if (!isDead)
-        {
-            PlayerMovementInput();
-            PlayerAttackInput();
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -132,10 +131,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("Player performed " + attackTrigger + "!");
     }
-
 
     public void OnHurtAnimationEnd()
     {

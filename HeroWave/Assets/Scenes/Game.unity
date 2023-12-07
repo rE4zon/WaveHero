@@ -2465,7 +2465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -78.8, y: -51.3}
+  m_AnchoredPosition: {x: -58, y: -51.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1002453926
@@ -2596,7 +2596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobPrefab: {fileID: 9149151037738929033, guid: a5959273a874bc64986718542b6a922c, type: 3}
-  spawnInterval: 2
+  spawnInterval: 4
 --- !u!4 &1049638423
 Transform:
   m_ObjectHideFlags: 0
